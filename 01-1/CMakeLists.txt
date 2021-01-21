@@ -23,10 +23,10 @@ install(TARGETS ${PROJECT_NAME}
         ARCHIVE DESTINATION ${CMAKE_CURRENT_LIST_DIR}/install/bin/)
 
 #testing
-include(CTest)
+#include(CTest)
 #enable_testing()
 
-add_test(NAME check_hello_exit_zero
-         COMMAND Hello
-         )
+#add_test(NAME check_hello_exit_zero
+#         COMMAND Hello
+#         )
 
