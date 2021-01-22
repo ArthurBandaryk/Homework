@@ -45,6 +45,7 @@ jobs:
           cd build   
           cmake ..
           #cmake --build .
+          make
           # Make tests
           #ctest -VV
           # Install
