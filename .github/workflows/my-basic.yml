@@ -18,36 +18,5 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v1
-      - name: ECH  
-        run: echo "Hello"
-      # Check OS
-      - name: CheckOS
-        run: uname -a
-      # Check GCC version  
-      - name: CheckGCC
-        run: gcc --version 
-      # Check G++ version  
-      - name: CheckG++
-        run: g++ --version
-      # Check cmake version  
-      - name: CheckCMake
-        run: cmake --version
-      # Check Ninja version
-      - name: Ninja
-        run: ninja --version
-      # Build proj using CMake + Ninja  
-      - name: build_act
-        
-        run: | 
-          - mkdir build
-          - cd build   
-          - cmake -G Ninja ..
-          - cmake --build .
-          # Make tests
-          - ctest -VV
-          # Install
-          - cmake --install .     
-                      
-             
+      - name: Print Info
+        run: echo "Hello World"
