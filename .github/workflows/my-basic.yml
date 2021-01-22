@@ -50,6 +50,10 @@ jobs:
           ctest -VV
           # Install
           cmake --install .
+          #run bins
+          01-1/./Hello
+          01-2/hello_bin/./hello-bin-dynamic
+          01-2/hello_bin/./hello-bin-static
                
                       
              
