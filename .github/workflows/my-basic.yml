@@ -41,7 +41,7 @@ jobs:
       - name: build_act
         
         run: | 
-          apt-get update -qq
+          sudo apt-get update -qq
           mkdir build
           cd build   
           cmake ..
