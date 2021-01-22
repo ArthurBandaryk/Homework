@@ -41,15 +41,16 @@ jobs:
       - name: build_act
         
         run: |
+          sudo apt-get install ninja-build
           mkdir build
           cd build   
-          cmake -DCMAKE_C_COMPILER=gcc 9 -DCMAKE_CXX_COMPILER=g++ 9 ..
+          cmake -G Ninja ..
           cmake --build .
-          make
           # Make tests
           ctest -VV
           # Install
-          cmake --install .     
+          cmake --install .
+               
                       
              
 
