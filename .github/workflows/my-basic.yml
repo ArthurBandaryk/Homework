@@ -20,6 +20,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v1
+      - name: ECH  
+        run: echo "Hello"
       # Check OS
       - name: CheckOS
         run: uname -a
