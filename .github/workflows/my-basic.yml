@@ -4,7 +4,7 @@ name: Basic-Action
 
 # Controls when the action will run. 
 on:
-  commit_comment:
+  push:
       branches: 
         -master
 
