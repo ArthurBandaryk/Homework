@@ -41,11 +41,11 @@ jobs:
       - name: build_act
         
         run: | 
+          apt-get update -qq
           mkdir build
           cd build   
           cmake ..
-          #cmake --build .
-          make
+          cmake --build .
           # Make tests
           ctest -VV
           # Install
