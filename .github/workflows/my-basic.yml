@@ -5,8 +5,8 @@ name: BasicAction
 # Controls when the action will run. 
 on:
   push:  
-      branches: 
-        -master       
+    branches: 
+      -master       
          
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,6 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v1
+        
       - name: ECH  
         run: echo "Hello"
       # Check OS
