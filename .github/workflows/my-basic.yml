@@ -41,7 +41,8 @@ jobs:
       - name: build_act
         
         run: | 
-          sudo apt-get update -qq
+          sudo apt update
+          sudo apt install g++ 9.3.0 gcc 9.3.0
           mkdir build
           cd build   
           cmake ..
