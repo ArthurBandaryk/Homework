@@ -23,32 +23,32 @@ jobs:
       - name: ECH  
         run: echo "Hello"
       # Check OS
-      - name: CheckOS
-        run: uname -a
+      #- name: CheckOS
+        #run: uname -a
       # Check GCC version  
-      - name: CheckGCC
-        run: gcc --version 
+      #- name: CheckGCC
+       # run: gcc --version 
       # Check G++ version  
-      - name: CheckG++
-        run: g++ --version
+      #- name: CheckG++
+       # run: g++ --version
       # Check cmake version  
-      - name: CheckCMake
-        run: cmake --version
+      #- name: CheckCMake
+        #run: cmake --version
       # Check Ninja version
-      - name: Ninja
-        run: ninja --version
+      #- name: Ninja
+        #run: ninja --version
       # Build proj using CMake + Ninja  
-      - name: build_act
+      #- name: build_act
         
-        run: | 
-          - mkdir build
-          - cd build   
-          - cmake -G Ninja ..
-          - cmake --build .
+       # run: | 
+         # - mkdir build
+          #- cd build   
+         # - cmake -G Ninja ..
+         # - cmake --build .
           # Make tests
-          - ctest -VV
+         # - ctest -VV
           # Install
-          - cmake --install .     
+          #- cmake --install .     
                       
              
 
