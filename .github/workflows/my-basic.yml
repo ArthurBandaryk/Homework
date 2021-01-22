@@ -20,3 +20,11 @@ jobs:
     steps:
       - name: Print Info
         run: echo "Hello World"
+  echo:
+    name: ee
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: ee
+        run: echo 1
+    
