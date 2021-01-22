@@ -41,7 +41,7 @@ jobs:
       - name: build_act
         
         run: | 
-          - mkdir build
+          mkdir build
           #- cd build   
           #- cmake ..
           #- cmake --build .
