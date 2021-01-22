@@ -13,7 +13,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build_test:
-    name: OS
+    name: Build-CMake
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -37,9 +37,6 @@ jobs:
       # Check cmake version  
       - name: CheckCMake
         run: cmake --version
-      # Check Ninja version
-      - name: Ninja
-        run: ninja --version
       # Build proj using CMake + Ninja  
       - name: build_act
         
