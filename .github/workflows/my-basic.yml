@@ -40,7 +40,8 @@ jobs:
       # Build proj using CMake + Ninja  
       - name: build_act
         
-        run: | 
+        run: |
+          sudo apt update 
           sudo apt install g++ 9.3.0
           mkdir build
           cd build   
