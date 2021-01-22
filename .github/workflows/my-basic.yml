@@ -26,14 +26,14 @@ jobs:
       - name: ECH  
         run: echo "Hello"
       # Check OS
-      #- name: CheckOS
-        #run: uname -a
+      - name: CheckOS
+        run: uname -a
       # Check GCC version  
-      #- name: CheckGCC
-       # run: gcc --version 
+      - name: CheckGCC
+        run: gcc --version 
       # Check G++ version  
-      #- name: CheckG++
-       # run: g++ --version
+      - name: CheckG++
+        run: g++ --version
       # Check cmake version  
       #- name: CheckCMake
         #run: cmake --version
