@@ -41,16 +41,14 @@ jobs:
       - name: build_act
         
         run: |
-          sudo apt update 
-          sudo apt install g++ 9.3.0
           mkdir build
           cd build   
           cmake ..
-          cmake --build .
+          #cmake --build .
           # Make tests
-          ctest -VV
+          #ctest -VV
           # Install
-          cmake --install .     
+          #cmake --install .     
                       
              
 
