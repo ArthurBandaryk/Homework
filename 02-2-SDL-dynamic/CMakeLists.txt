@@ -23,5 +23,6 @@ target_link_libraries(
 	sdl2-dynamic
  	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.so
 	-lm
+	-ldl
 )
 
