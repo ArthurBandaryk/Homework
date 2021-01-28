@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdlib>
-#include <math.h>
 
 #include <SDL_version.h>
 #include "Configure.h"
