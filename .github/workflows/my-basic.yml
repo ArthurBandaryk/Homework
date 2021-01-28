@@ -57,6 +57,7 @@ jobs:
           01-2/hello_bin/./hello-bin-dynamic
           01-2/hello_bin/./hello-bin-static
           cd 02-1-SDL-static
+          ls
           ./SDL2-static
           cd 02-2-SDL-dynamic
           ./SDL2-dynamic
