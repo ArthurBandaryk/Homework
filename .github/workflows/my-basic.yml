@@ -47,7 +47,7 @@ jobs:
           ldd --version
           mkdir build
           cd build   
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug DCMAKE_INSTALL_PREFIX=/usr/lib/x86_64-linux-gnu..
           cmake --build .
           # Make tests
           ctest
