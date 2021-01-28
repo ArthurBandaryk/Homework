@@ -15,7 +15,7 @@ target_compile_features(SDL2-dynamic PUBLIC cxx_std_17)
 
 #add pathes to include files
 target_include_directories(SDL2-dynamic 
-#PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 PUBLIC ${PROJECT_BINARY_DIR})
 
 #link with specific libs
