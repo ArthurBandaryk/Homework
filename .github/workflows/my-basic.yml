@@ -41,7 +41,7 @@ jobs:
         
         run: |
           sudo apt-get install ninja-build
-          sudo apt-get install build-essential
+          #sudo apt-get install build-essential
           #sudo ln -s /lib64/x86_64-linux-gnu/libc.so.6 /lib64/libc.so.6
           #sudo apt-cache search libsdl2
           #sudo apt-get install libsdl2-dev
