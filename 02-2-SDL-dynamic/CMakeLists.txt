@@ -18,7 +18,7 @@ target_include_directories(sdl2-dynamic
 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 PUBLIC ${PROJECT_BINARY_DIR})
 
-message(opa = ${CMAKE_CURRENT_SOURCE_DIR})
+#message(opa = ${CMAKE_CURRENT_SOURCE_DIR})
 #link with specific libs
 #target_link_libraries(
 	#sdl2-dynamic
