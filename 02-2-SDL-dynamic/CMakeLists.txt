@@ -6,8 +6,7 @@ project(sdl2-dynamic VERSION 1.0.1 LANGUAGES CXX)
 
 #make configure version file
 configure_file(Configure.h.in ${PROJECT_BINARY_DIR}/Configure.h)
-set(SDL2 ${CMAKE_CURRENT_SOURCE_DIR}/libs)
-find_package(SDL2 REQUIRED)
+
 #make exe file sdl2-static
 add_executable(sdl2-dynamic ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cxx)
 
@@ -22,10 +21,9 @@ PUBLIC ${PROJECT_BINARY_DIR})
 message(opa = ${CMAKE_CURRENT_SOURCE_DIR})
 #link with specific libs
 #target_link_libraries(
-	#sdl2-dynamic
+	sdl2-dynamic
  	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.so
 	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so.0
-	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so.0.14.0
-#)
+	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so.0.14.0
+)
 
-target_link_libraries(02-sdl-dynamic PRIVATE SDL2::SDL2 )
