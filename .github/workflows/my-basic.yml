@@ -41,6 +41,8 @@ jobs:
         
         run: |
           sudo apt-get install ninja-build
+          sudo apt-cache search libsdl2
+          sudo apt-get install libsdl2-dev
           mkdir build
           cd build   
           cmake -G Ninja ..
