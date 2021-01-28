@@ -52,7 +52,7 @@ jobs:
           # Install
           cmake --install .
           #run bins
-          ls
+          #ls
           01-1/./Hello
           01-2/hello_bin/./hello-bin-dynamic
           01-2/hello_bin/./hello-bin-static
