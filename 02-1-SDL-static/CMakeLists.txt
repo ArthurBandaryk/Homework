@@ -26,5 +26,6 @@ target_link_libraries(
  	-lm
  	-ldl
  	-lpthread
+	-lrt
 )
 
