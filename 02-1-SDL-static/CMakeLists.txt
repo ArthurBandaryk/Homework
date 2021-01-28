@@ -20,7 +20,7 @@ PUBLIC ${PROJECT_BINARY_DIR})
 
 #link with specific libs
 target_link_libraries(
-	SDL2-static
+	sdl2-static
  	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.a
  	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2maind.a
  	-lm
