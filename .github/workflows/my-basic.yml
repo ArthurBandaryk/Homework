@@ -41,10 +41,6 @@ jobs:
         
         run: |
           sudo apt-get install ninja-build
-          sudo apt-cache policy libc6
-          sudo apt-get install libc6
-          echo 1111111
-          ldd --version
           mkdir build
           cd build   
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug DCMAKE_INSTALL_PREFIX=/usr/lib/x86_64-linux-gnu ..
