@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
               << static_cast<int>(sdl_linked.major) << "."
               << static_cast<int>(sdl_linked.minor) << "."
               << static_cast<int>(sdl_linked.patch) << std::endl;
-    SDL_fmod(34.5, 56.5);
+    //SDL_fmod(34.5, 56.5);
 
     return  std::cout.good() ? EXIT_SUCCESS : EXIT_FAILURE;
 }
