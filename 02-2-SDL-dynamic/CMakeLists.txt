@@ -21,9 +21,9 @@ PUBLIC ${PROJECT_BINARY_DIR})
 #link with specific libs
 target_link_libraries(
 	sdl2-dynamic
- 	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.so
+ 	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.so
 	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so.0
-	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so
-	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so.0.14.0
+	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so
+	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so.0.14.0
 )
 
