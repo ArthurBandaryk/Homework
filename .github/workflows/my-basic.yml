@@ -59,6 +59,7 @@ jobs:
           cd 02-1-SDL-static
           ls
           ./sdl2-static
+          cd ..
           cd 02-2-SDL-dynamic
           echo \n
           ./sdl2-dynamic
