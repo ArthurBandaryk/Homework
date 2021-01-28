@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstdlib>
+//#include <cstdlib>
 
 #include <SDL_version.h>
 #include "Configure.h"
