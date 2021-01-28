@@ -41,6 +41,7 @@ jobs:
         
         run: |
           sudo apt-get install ninja-build
+          sudo apt-get install libsdl2-dev
           mkdir build
           cd build   
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug DCMAKE_INSTALL_PREFIX=/usr/lib/x86_64-linux-gnu ..
