@@ -43,7 +43,8 @@ jobs:
           sudo apt-get install ninja-build
           sudo apt-get install libsdl2-dev
           mkdir build
-          cd build   
+          cd build
+          pwd   
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
           cmake --build .
           # Make tests
@@ -54,6 +55,7 @@ jobs:
           01-1/./Hello
           01-2/hello_bin/./hello-bin-dynamic
           01-2/hello_bin/./hello-bin-static
+          
                
                       
              
