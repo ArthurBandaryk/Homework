@@ -29,4 +29,4 @@ message(opa = ${CMAKE_CURRENT_SOURCE_DIR})
 
 find_library(SDL2_LIB_D libSDL2-2.0.so.0)
 
-target_link_libraries(02-sdl-dynamic PRIVATE ${SDL2_LIB_D})
+target_link_libraries(sdl2-dynamic PRIVATE ${SDL2_LIB_D})
