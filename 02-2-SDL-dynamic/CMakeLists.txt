@@ -7,6 +7,8 @@ project(sdl2-dynamic VERSION 1.0.1 LANGUAGES CXX)
 #make configure version file
 configure_file(Configure.h.in ${PROJECT_BINARY_DIR}/Configure.h)
 
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 #make exe file sdl2-static
 add_executable(sdl2-dynamic ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cxx)
 
