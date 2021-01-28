@@ -20,7 +20,7 @@ PUBLIC ${PROJECT_BINARY_DIR})
 
 message(opa = ${CMAKE_CURRENT_SOURCE_DIR})
 #link with specific libs
-#target_link_libraries(
+target_link_libraries(
 	sdl2-dynamic
  	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.so
 	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2-2.0d.so.0
