@@ -43,8 +43,10 @@ jobs:
           sudo apt-get install ninja-build
           #sudo apt-cache search libsdl2
           #sudo apt-get install libsdl2-dev
-          echo 1111
-          pwd
+          #/home/runner/work/Homework/Homework
+          cd /usr/lib/x86_64-linux-gnu
+          ls
+          cd /home/runner/work/Homework/Homework
           mkdir build
           cd build   
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
