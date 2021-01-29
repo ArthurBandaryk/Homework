@@ -13,16 +13,23 @@ add_executable(sdl2-static ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cxx)
 #set compiler properties
 target_compile_features(sdl2-static PUBLIC cxx_std_17)
 
+#find SDL
+find_package(SDL2 REQUIRED)
+
+#find specific lib
+find_library(sdl2-static-lib libSDL2d.a)
+
 #add pathes to include files
 target_include_directories(sdl2-static 
-PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
-PUBLIC ${PROJECT_BINARY_DIR})
+	PRIVATE ${SDL2_INCLUDE_DIRS} #SDL headers
+	PUBLIC ${PROJECT_BINARY_DIR} #Configure.h
+)
 
 #link with specific libs
 target_link_libraries(
 	sdl2-static
  	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.a
- 	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2maind.a
+ 	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2maind.a
  	-lm
  	-ldl
  	-lpthread
