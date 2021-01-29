@@ -48,5 +48,7 @@ target_link_libraries(
 	-lXxf86vm
 	-lwayland-egl
 	-lwayland-client
+	-lwayland-cursor
+	-lxkbcommon
 )
 
