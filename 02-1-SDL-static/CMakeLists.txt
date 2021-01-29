@@ -20,7 +20,8 @@ find_package(SDL2 REQUIRED)
 find_library(sdl2-static-lib1 libSDL2.a)
 find_library(sdl2-static-lib2 libSDL2main.a)
 
-message("path to static lib: ${sdl2-static-lib}")
+message("path to static lib1: ${sdl2-static-lib1}")
+message("path to static lib2: ${sdl2-static-lib2}")
 
 #add pathes to include files
 target_include_directories(sdl2-static 
