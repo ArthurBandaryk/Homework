@@ -42,6 +42,11 @@ jobs:
         run: |
           sudo apt-get install ninja-build
           sudo apt-get install libsdl2-dev
+          #/home/runner/work/Homework/Homework/build
+          cd /usr/local/bin
+          ls
+          echo !!!!!!!!!!!!!!!!!!
+          cd /home/runner/work/Homework/Homework
           mkdir build
           cd build
           pwd   
