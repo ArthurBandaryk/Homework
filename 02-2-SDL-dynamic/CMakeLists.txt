@@ -13,6 +13,7 @@ add_executable(sdl2-dynamic ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cxx)
 #set compiler properties
 target_compile_features(sdl2-dynamic PUBLIC cxx_std_17)
 find_package(SDL2 REQUIRED)
+target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIRS} PUBLIC ${PROJECT_BINARY_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
 
 #include(FindPkgConfig)
