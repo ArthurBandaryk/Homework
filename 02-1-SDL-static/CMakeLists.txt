@@ -50,5 +50,8 @@ target_link_libraries(
 	-lwayland-client
 	-lwayland-cursor
 	-lxkbcommon
+	-lasound
+	-lpulse-simple
+	-lpulse
 )
 
