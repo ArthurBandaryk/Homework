@@ -17,7 +17,7 @@ target_compile_features(sdl2-static PUBLIC cxx_std_17)
 find_package(SDL2 REQUIRED)
 
 #find specific lib
-find_library(sdl2-static-lib libSDL2d.a)
+find_library(sdl2-static-lib libSDL2.a)
 
 message("path to static lib: ${sdl2-static-lib}")
 
@@ -31,8 +31,6 @@ target_include_directories(sdl2-static
 target_link_libraries(
 	sdl2-static
 	${sdl2-static-lib}
- 	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.a
- 	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2maind.a
  	-lm
  	-ldl
  	-lpthread
