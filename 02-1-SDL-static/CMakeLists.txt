@@ -35,5 +35,7 @@ target_link_libraries(
  	-ldl
  	-lpthread
 	-lrt
+	-lasound
+	 -lSDL2 
 )
 
