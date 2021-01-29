@@ -44,5 +44,9 @@ target_link_libraries(
 	-lXinerama
 	-lXi
 	-lXrandr
+	-lXss
+	-lXxf86vm
+	-lwayland-egl
+	-lwayland-client
 )
 
