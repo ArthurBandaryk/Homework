@@ -19,6 +19,8 @@ find_package(SDL2 REQUIRED)
 #find specific lib
 find_library(sdl2-static-lib libSDL2d.a)
 
+message("path to static lib: ${sdl2-static-lib}")
+
 #add pathes to include files
 target_include_directories(sdl2-static 
 	PRIVATE ${SDL2_INCLUDE_DIRS} #SDL headers
@@ -28,7 +30,8 @@ target_include_directories(sdl2-static
 #link with specific libs
 target_link_libraries(
 	sdl2-static
- 	${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.a
+	${sdl2-static-lib}
+ 	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2d.a
  	#${CMAKE_CURRENT_SOURCE_DIR}/libs/libSDL2maind.a
  	-lm
  	-ldl
