@@ -38,5 +38,11 @@ target_link_libraries(
  	-ldl
  	-lpthread
 	-lrt
+	-lX11 
+	-lXext 
+	-lXcursor
+	-lXinerama
+	-lXi
+	-lXrandr
 )
 
