@@ -29,13 +29,14 @@ target_compile_features(sdl2-dynamic PUBLIC cxx_std_17)
 #########################################################################
 #find_package(SDL2 REQUIRED)
 find_library(sdl2-dynamic-lib libSDL2-2.0.so.0)
+message("path to sdl2-lib-dynamic: ${sdl2-dynamic-lib}")
 target_include_directories(${PROJECT_NAME} 
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 	PUBLIC ${PROJECT_BINARY_DIR}
 )
 target_link_libraries(${PROJECT_NAME} 
 	${sdl2-dynamic-lib}
-        -lSDL2
+        #-lSDL2
 )
 
 #include(FindPkgConfig)
@@ -48,7 +49,6 @@ target_link_libraries(${PROJECT_NAME}
 #PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 #PUBLIC ${PROJECT_BINARY_DIR})
 
-#message(opa = ${CMAKE_CURRENT_SOURCE_DIR})
 #link with specific libs
 #target_link_libraries(
 	#sdl2-dynamic
