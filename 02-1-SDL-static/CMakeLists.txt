@@ -31,11 +31,10 @@ target_include_directories(sdl2-static
 target_link_libraries(
 	sdl2-static
 	${sdl2-static-lib}
+	-Wl,--no-undefined 
  	-lm
  	-ldl
  	-lpthread
 	-lrt
-	-lasound
-	 -lSDL2 
 )
 
