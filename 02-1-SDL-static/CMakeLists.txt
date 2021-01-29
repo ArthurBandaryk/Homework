@@ -26,7 +26,7 @@ message("path to static lib2: ${sdl2-static-lib2}")
 #add pathes to include files
 target_include_directories(sdl2-static 
 	PRIVATE ${SDL2_INCLUDE_DIRS} #SDL headers
-	PUBLIC ${PROJECT_BINARY_DIR} #Configure.h
+	PRIVATE ${PROJECT_BINARY_DIR} #Configure.h
 )
 
 #link with specific libs
