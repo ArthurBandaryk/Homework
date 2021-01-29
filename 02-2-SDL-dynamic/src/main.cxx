@@ -1,7 +1,7 @@
 #include <iostream>
 //#include <cstdlib>
 
-#include <SDL/SDL_version.h>
+#include <SDL_version.h>
 #include "Configure.h"
 
 int main(int argc, char* argv[])
