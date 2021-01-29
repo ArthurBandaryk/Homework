@@ -27,7 +27,7 @@ target_compile_features(sdl2-dynamic PUBLIC cxx_std_17)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
 
 #########################################################################
-find_package(SDL2 REQUIRED)
+#find_package(SDL2 REQUIRED)
 find_library(sdl2-dynamic-lib libSDL2-2.0.so.0)
 target_include_directories(${PROJECT_NAME} 
 	PRIVATE ${SDL2_INCLUDE_DIRS} 
