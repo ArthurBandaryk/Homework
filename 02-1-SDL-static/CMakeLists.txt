@@ -53,5 +53,6 @@ target_link_libraries(
 	-lasound
 	-lpulse-simple
 	-lpulse
+	-lsndio
 )
 
