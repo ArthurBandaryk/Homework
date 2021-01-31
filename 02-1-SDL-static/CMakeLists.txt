@@ -58,5 +58,5 @@ target_include_directories(sdl2-static
 	#-lpulse-simple
 	#-lpulse
 	#-lsndio
-#)
+)
 
