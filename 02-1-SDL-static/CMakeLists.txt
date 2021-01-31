@@ -22,7 +22,7 @@ find_package(SDL2 CONFIG REQUIRED)
 #find_library(sdl2-static-lib1 libSDL2.a)
 #find_library(sdl2-static-lib2 libSDL2main.a)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2-static)
+target_link_libraries(sdl2-static PRIVATE SDL2::SDL2-static)
 #message("path to static lib1: ${sdl2-static-lib1}")
 #message("path to static lib2: ${sdl2-static-lib2}")
 
