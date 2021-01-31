@@ -43,8 +43,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install ninja-build
           #sudo apt-get install libsdl2-dev
-          sudo apt-get install libsdl2-dev
-          sudo apt-get install sdl2-static
+          sudo apt-get install libsdl2-2.0
           echo ###############
           mkdir build
           cd build
