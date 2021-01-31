@@ -14,7 +14,7 @@ add_executable(sdl2-static ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cxx)
 target_compile_features(sdl2-static PUBLIC cxx_std_17)
 
 #find SDL
-find_package(SDL2 REQUIRED)
+find_package(sdl2 REQUIRED)
 
 #find specific lib
 #find_library(sdl2-static-lib1 libSDL2.a)
