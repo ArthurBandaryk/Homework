@@ -38,10 +38,10 @@ target_link_libraries(
 	${sdl2-static-lib1}
 #	${sdl2-static-lib2}
 	#-Wl,--no-undefined 
- #	-lm
- #	-ldl
- #	-lpthread
-#	-lrt
+ 	-lm
+ 	-ldl
+ 	-lpthread
+	-lrt
 	#-lX11 
 	#-lXext 
 	#-lXcursor
