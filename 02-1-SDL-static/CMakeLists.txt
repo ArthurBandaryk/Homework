@@ -13,7 +13,8 @@ add_executable(sdl2-static ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cxx)
 #set compiler properties
 target_compile_features(sdl2-static PUBLIC cxx_std_17)
 
-set(CMAKE_PREFIX_PATH usr/local/lib /usr/lib/x86_64-linux-gnu)
+list(APPEND CMAKE_PREFIX_PATH "usr/local/lib/cmake/SDL2/" "x86_64-linux-gnu" "usr/local/lib")
+#set(CMAKE_PREFIX_PATH usr/local/lib /usr/lib/x86_64-linux-gnu)
 #find SDL
 find_package(SDL2 REQUIRED)
 
