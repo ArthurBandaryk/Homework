@@ -17,10 +17,10 @@ target_compile_features(sdl2-static PUBLIC cxx_std_17)
 find_package(SDL2 REQUIRED)
 
 #find specific lib
-#find_library(sdl2-static-lib1 libSDL2.a)
-#find_library(sdl2-static-lib2 libSDL2main.a)
+find_library(sdl2-static-lib1 libSDL2.a)
+find_library(sdl2-static-lib2 libSDL2main.a)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE sdl2::sdl2-static)
+#target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2-static)
 message("path to static lib1: ${sdl2-static-lib1}")
 message("path to static lib2: ${sdl2-static-lib2}")
 
@@ -31,15 +31,15 @@ target_include_directories(sdl2-static
 )
 
 #link with specific libs
-#target_link_libraries(
-	#sdl2-static
-	#${sdl2-static-lib1}
-	#${sdl2-static-lib2}
+target_link_libraries(
+	sdl2-static
+	${sdl2-static-lib1}
+	${sdl2-static-lib2}
 	#-Wl,--no-undefined 
- 	#-lm
- 	#-ldl
- 	#-lpthread
-	#-lrt
+ 	-lm
+ 	-ldl
+ 	-lpthread
+	-lrt
 	#-lX11 
 	#-lXext 
 	#-lXcursor
@@ -56,5 +56,5 @@ target_include_directories(sdl2-static
 	#-lpulse-simple
 	#-lpulse
 	#-lsndio
-#)
+)
 
