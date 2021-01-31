@@ -28,7 +28,7 @@ message("path to static lib1: ${sdl2-static-lib1}")
 
 #add pathes to include files
 target_include_directories(sdl2-static 
-	#PRIVATE ${SDL2_INCLUDE_DIRS} #SDL headers
+	PRIVATE ${SDL2_INCLUDE_DIRS} #SDL headers
 	PRIVATE ${PROJECT_BINARY_DIR} #Configure.h
 )
 
