@@ -43,14 +43,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ninja-build
-          #sudo apt-get install libsdl2-dev
-          sudo apt-get install libsdl2-2.0
           sudo apt-get install libsdl2-dev
           echo ###############
           mkdir build
           cd build
           pwd   
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
+          cmake -G Ninja ..
           cmake --build .
           # Make tests
           ctest
