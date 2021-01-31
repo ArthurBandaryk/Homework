@@ -16,7 +16,7 @@ target_compile_features(sdl2-static PUBLIC cxx_std_17)
 list(APPEND CMAKE_PREFIX_PATH "usr/local/lib/cmake/SDL2/" "/usr/lib/x86_64-linux-gnu" "usr/local/lib")
 #set(CMAKE_PREFIX_PATH usr/local/lib /usr/lib/x86_64-linux-gnu)
 #find SDL
-find_package(SDL2 REQUIRED)
+find_package(SDL2 CONFIG REQUIRED)
 
 #find specific lib
 #find_library(sdl2-static-lib1 libSDL2.a)
