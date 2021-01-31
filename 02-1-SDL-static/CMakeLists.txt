@@ -20,7 +20,8 @@ find_package(SDL2 CONFIG REQUIRED)
 target_link_libraries(sdl2-static PRIVATE usr/lib/x86_64-linux-gnu/libSDL2.a)
 
 #add pathes to include files
-target_include_directories(sdl2-static 
+target_include_directories(sdl2-static
+	PRIVATE ${SDL2_INCLUDE_DIRS}
 	PRIVATE ${PROJECT_BINARY_DIR} #Configure.h
 )
 
