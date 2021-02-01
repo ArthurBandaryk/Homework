@@ -18,4 +18,5 @@ find_package(SDL2 REQUIRED)
 
 #link with specific lib
 #target_link_libraries(sdl2-show-events SDL2::SDL2)
+target_include_directories(sdl2-show-events PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(sdl2-show-events PRIVATE ${SDL2_LIBRARIES})
