@@ -6,6 +6,7 @@ add_subdirectory(01-1)
 add_subdirectory(01-2)
 #add_subdirectory(02-1-SDL-static)
 #add_subdirectory(02-2-SDL-dynamic)
+add_subdirectory(03-1-show-events)
 
 ##########
 include(CTest)
