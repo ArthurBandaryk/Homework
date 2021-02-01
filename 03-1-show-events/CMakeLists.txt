@@ -17,4 +17,5 @@ target_compile_features(sdl2-show-events PUBLIC cxx_std_17)
 find_package(SDL2 REQUIRED)
 
 #link with specific lib
-target_link_libraries(sdl2-show-events SDL2::SDL2)
+#target_link_libraries(sdl2-show-events SDL2::SDL2)
+target_link_libraries(sdl2-show-events PRIVATE ${SDL2_LIBRARIES})
