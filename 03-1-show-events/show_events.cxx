@@ -9,9 +9,9 @@
 
 struct KeypadKey //bind keypad key code with string name
 {
-    SDL_KeyCode code;
+    SDL_Keycode code;
     std::string_view name;
-    KeypadKey(const SDL_KeyCode &code,
+    KeypadKey(const SDL_Keycode &code,
               const std::string_view name)
     {
         this->code = code;
