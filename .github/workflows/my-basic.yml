@@ -59,7 +59,6 @@ jobs:
           01-1/./Hello
           01-2/hello_bin/./hello-bin-dynamic
           01-2/hello_bin/./hello-bin-static
-          03-1-show-events/./sdl2-show-events
           #cd 02-1-SDL-static
           #ls
           #./sdl2-static
