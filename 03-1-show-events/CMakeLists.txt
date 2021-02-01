@@ -1,5 +1,5 @@
 #set min version cmake
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.19)
 
 #set proj properties
 project(sdl2-show-events LANGUAGES CXX)
@@ -14,7 +14,7 @@ add_executable(sdl2-show-events ${CMAKE_CURRENT_SOURCE_DIR}/show_events.cxx)
 target_compile_features(sdl2-show-events PUBLIC cxx_std_17)
 
 #find SDL
-find_package(sdl2 REQUIRED)
+find_package(SDL2 REQUIRED)
 
 #link with specific lib
-target_link_libraries(sdl2-show-events sdl2::sdl2)
+target_link_libraries(sdl2-show-events SDL2::SDL2)
