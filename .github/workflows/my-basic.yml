@@ -47,25 +47,25 @@ jobs:
           echo ###############
           mkdir build
           cd build
-          pwd   
+          #pwd   
           cmake -G Ninja ..
           cmake --build .
           # Make tests
-          ctest
+          #ctest
           # Install
-          cmake --install .
+          #cmake --install .
           #run bins
           #ls
           01-1/./Hello
           01-2/hello_bin/./hello-bin-dynamic
           01-2/hello_bin/./hello-bin-static
-          cd 02-1-SDL-static
-          ls
-          ./sdl2-static
-          cd ..
-          cd 02-2-SDL-dynamic
-          echo \n
-          ./sdl2-dynamic
+          #cd 02-1-SDL-static
+          #ls
+          #./sdl2-static
+          #cd ..
+          #cd 02-2-SDL-dynamic
+          #echo \n
+          #./sdl2-dynamic
           
                
                       
