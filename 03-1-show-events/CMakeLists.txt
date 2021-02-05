@@ -1,5 +1,5 @@
 #set min version cmake
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.15)
 
 #set proj properties
 project(sdl2-show-events LANGUAGES CXX)
