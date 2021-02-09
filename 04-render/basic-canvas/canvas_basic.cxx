@@ -114,13 +114,13 @@ auto& Image::get_pixels()
 
 void Image::set_pixel(unsigned int x, unsigned int y, Color& c)
 {
-    unsigned int index = x * width + y;
+    unsigned int index = y * width + x;
     pixels.at(index)   = c;
 }
 
 Color Image::get_pixel(unsigned int x, unsigned int y) const
 {
-    unsigned int index = x * width + y;
+    unsigned int index = y * width + x;
     return pixels.at(index);
 }
 
