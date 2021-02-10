@@ -48,6 +48,7 @@ Image::Image() {}
 bool Image::save_image(const std::string& file)
 {
     std::ofstream fout;
+    fout.exceptions(std::ios::failbit);
     fout.open(file, std::ios::binary);
     if (!fout.is_open())
     {
@@ -68,6 +69,7 @@ bool Image::save_image(const std::string& file)
 bool Image::load_image(const std::string& file)
 {
     std::ifstream fin;
+    fin.exceptions(std::ios::failbit);
     fin.open(file, std::ios::binary);
     if (!fin.is_open())
     {
