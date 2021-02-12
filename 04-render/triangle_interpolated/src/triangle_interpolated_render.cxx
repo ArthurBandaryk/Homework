@@ -69,6 +69,33 @@ void TriangleInterpolatedRender::raster_one_horizontal_line(
     }
 }
 
+void TriangleInterpolatedRender::raster_one_vertical_line(
+    const Vertex& up, const Vertex& down, std::vector<Vertex>& v_out)
+{
+    canv::Position start{ static_cast<int32_t>(up.x),
+                          static_cast<int32_t>(up.y) };
+    canv::Position finish{ static_cast<int32_t>(down.x),
+                           static_cast<int32_t>(down.y) };
+
+    size_t num_pixels =
+        static_cast<size_t>(std::round(std::fabs(up.y - down.y)));
+
+    if (num_pixels > 0)
+    {
+        for (size_t i = 0; i <= num_pixels + 1; ++i)
+        {
+            double t =
+                (static_cast<double>(i) / static_cast<double>(num_pixels + 1));
+            Vertex result = interpolate(up, down, t);
+            v_out.push_back(result);
+        }
+    }
+    else
+    {
+        v_out.push_back(up);
+    }
+}
+
 std::vector<Vertex> TriangleInterpolatedRender::raster_horizontal_triangle(
     const Vertex& top, const Vertex& left_line, const Vertex& right_line)
 {
@@ -103,16 +130,22 @@ std::vector<Vertex> TriangleInterpolatedRender::rasterize_triangle(
 
     std::array<const Vertex*, 3> arr_vertexes{ &v0, &v1, &v2 };
 
+    // sort all vertexes
     std::sort(arr_vertexes.begin(),
               arr_vertexes.end(),
               [](const Vertex* const l, const Vertex* const r) -> bool {
                   return l->y < r->y;
               });
 
+    // top - the highest vertex (y - max)
+    // middle - middle vertex
+    // bottom - lowest vertex (y - min)
+
     const Vertex& top    = *arr_vertexes.at(0);
     const Vertex& middle = *arr_vertexes.at(1);
     const Vertex& bottom = *arr_vertexes.at(2);
 
+    // p_top, p_mid, p_bot - for simple comparing coordinates of vertexes
     canv::Position p_top{ static_cast<int32_t>(std::round(top.x)),
                           static_cast<int32_t>(std::round(top.y)) };
     canv::Position p_mid{ static_cast<int32_t>(std::round(middle.x)),
@@ -120,7 +153,8 @@ std::vector<Vertex> TriangleInterpolatedRender::rasterize_triangle(
     canv::Position p_bot{ static_cast<int32_t>(std::round(bottom.x)),
                           static_cast<int32_t>(std::round(bottom.y)) };
 
-    if (p_top == p_mid)
+    // case when vertexes have same coordinates
+    if (p_top == p_mid) // top = middle
     {
         if (p_top == p_bot)
         { // it's a point
@@ -136,8 +170,35 @@ std::vector<Vertex> TriangleInterpolatedRender::rasterize_triangle(
         }
     }
 
+    // case when 3 vertexes have equal x
+    if (p_top.x == p_mid.x)
+    {
+        if (p_top.x == p_bot.x) // it's a line (top.x = middle.x = botton.x)
+
+        {
+            raster_one_vertical_line(top, middle, v_results);
+            raster_one_vertical_line(middle, bottom, v_results);
+            return v_results;
+        }
+    }
+
+    // case when 2 vertexes(top & middle) have same y coordinates
     if (p_top.y == p_mid.y)
     {
+        if (p_top.y == p_bot.y) // it's a line
+        {
+            std::array<const Vertex*, 3> arr_temp{ &top, &middle, &bottom };
+            std::sort(arr_temp.begin(),
+                      arr_temp.end(),
+                      [](const Vertex* const l, const Vertex* const r) -> bool {
+                          return l->x < r->x;
+                      });
+            raster_one_horizontal_line(
+                *arr_temp.at(0), *arr_temp.at(1), v_results);
+            raster_one_horizontal_line(
+                *arr_temp.at(1), *arr_temp.at(2), v_results);
+            return v_results;
+        }
         std::vector<Vertex> temp =
             raster_horizontal_triangle(bottom, top, middle);
         for (const auto& el : temp)
@@ -147,8 +208,23 @@ std::vector<Vertex> TriangleInterpolatedRender::rasterize_triangle(
         return v_results;
     }
 
+    // case when 2 vertexes(bottom & middle) have same y coordinates
     if (p_mid.y == p_bot.y)
     {
+        if (p_mid.y == p_top.y) // it's a line
+        {
+            std::array<const Vertex*, 3> arr_temp{ &top, &middle, &bottom };
+            std::sort(arr_temp.begin(),
+                      arr_temp.end(),
+                      [](const Vertex* const l, const Vertex* const r) -> bool {
+                          return l->x < r->x;
+                      });
+            raster_one_horizontal_line(
+                *arr_temp.at(0), *arr_temp.at(1), v_results);
+            raster_one_horizontal_line(
+                *arr_temp.at(1), *arr_temp.at(2), v_results);
+            return v_results;
+        }
         std::vector<Vertex> temp =
             raster_horizontal_triangle(top, middle, bottom);
         for (const auto& el : temp)
@@ -158,26 +234,39 @@ std::vector<Vertex> TriangleInterpolatedRender::rasterize_triangle(
         return v_results;
     }
 
+    // find all pixels at the longest triangle's side
+    // (std::vector<canv::Position> longest_side)
+
     canv::pixels longest_side = pixels_positions(p_top, p_bot);
 
+    // Leonid's hack: find pixel's y, which is equal to middle.y
     auto it_mid = std::find_if(longest_side.begin(),
                                longest_side.end(),
                                [&middle](const canv::Position& pos) -> bool {
                                    return pos.y == static_cast<int32_t>(
                                                        std::round(middle.y));
                                });
+
     if (it_mid == longest_side.end())
     {
         std::cerr << "Cannot find mid point on the longest side" << std::endl;
         return v_results;
     }
     else
-    {
+    { // we found specific pixel
         canv::Position p_mid_2 = *it_mid;
-        double         h_lines =
+
+        // calculating lines from top to bottom
+        double h_lines =
             static_cast<double>(std::round(fabs(top.y - bottom.y)));
+
+        // calculate index of vertex in p_mid_2 position
         double ind = static_cast<double>(std::round(fabs(top.y - p_mid_2.y)));
-        double t   = ind / h_lines;
+
+        // calculating tay for next interpolation
+        double t = ind / h_lines;
+
+        // get vertex in p_mid_2 position
         Vertex middle2{
             static_cast<double>(p_mid_2.x),
             static_cast<double>(p_mid_2.y),
@@ -193,11 +282,30 @@ std::vector<Vertex> TriangleInterpolatedRender::rasterize_triangle(
                             t))
         };
 
+        // get vector of vertexes from high triangle
+        //         [top]
+        //        /. . .\
+        //       /. . . .\
+        //      /. . . . .\
+        //     /. . . . . .\
+        // [middle2]----[middle]
+
         std::vector<Vertex> high_triangle =
             raster_horizontal_triangle(top, middle2, middle);
+
+        // get vector of vertexes from low triangle
+
+        // [middle2]------[middle]
+        //      \. . . . . ./
+        //       \. . . . ./
+        //        \. . . ./
+        //         \. . ./
+        //         [bottom]
+
         std::vector<Vertex> low_triangle =
             raster_horizontal_triangle(bottom, middle2, middle);
 
+        // insert high and low triangles in v_results
         v_results.insert(
             v_results.end(), high_triangle.begin(), high_triangle.end());
         v_results.insert(

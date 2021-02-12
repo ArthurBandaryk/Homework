@@ -41,6 +41,9 @@ private:
     std::vector<Vertex> raster_horizontal_triangle(const Vertex& top,
                                                    const Vertex& left_line,
                                                    const Vertex& right_line);
+    void                raster_one_vertical_line(const Vertex&        up,
+                                                 const Vertex&        down,
+                                                 std::vector<Vertex>& v_out);
     void                raster_one_horizontal_line(const Vertex&        left_vertex,
                                                    const Vertex&        right_vertex,
                                                    std::vector<Vertex>& v_out);
