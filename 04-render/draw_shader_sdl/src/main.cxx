@@ -108,8 +108,8 @@ int main(int /*argc*/, char* /*argv*/[])
 
         Uniform uni{ m_x, m_y, 0, 0, 0, static_cast<uint8_t>(r) };
         render_triangle.clear(black);
-        render_triangle.draw_triangles_interpolated(v_vertexes, v_indexes);
         prog.set_uniform(uni);
+        render_triangle.draw_triangles_interpolated(v_vertexes, v_indexes);
 
         SDL_Surface* surface =
             SDL_CreateRGBSurfaceFrom(img.get_pixels().data(),
