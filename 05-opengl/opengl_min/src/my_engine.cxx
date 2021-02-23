@@ -507,7 +507,7 @@ void Engine_impl::render_triangle(const Triangle& /*v*/)
         time_cur - time_begin;
 
     GLfloat col =
-        0.5f * (std::fabs(std::sin(delta_time.count())) + 1.f);
+        0.5f * (std::sin(delta_time.count()) + 1.f);
     // std::cout << col << std::endl;
 
     glClearColor(col, 1.f - col, col, 0.f);
