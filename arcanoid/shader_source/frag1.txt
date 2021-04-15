@@ -1,0 +1,21 @@
+#version 300 es
+precision mediump float;
+in vec4 v_position;
+//in vec3 v_color;
+out vec4 fragCol;
+ 
+void main()
+{
+	//if (v_position.z >= 0.0)
+	//{
+	//	float light_green = 0.5 + v_position.z / 2.0;
+	//	fragCol = vec4(0.0, light_green, 0.0, 1.0);
+	//}
+	//else
+	//{
+	//	float color = 0.5 - (v_position.z / -2.0);
+	//	fragCol = vec4(color, 0.0, 0.0, 1.0);
+	//}
+	//fragCol = vec4(v_color, 1.f);
+	fragCol = vec4(0.69f, 0.152f, 0.905f, 1.f);
+}
