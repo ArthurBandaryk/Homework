@@ -75,6 +75,16 @@ Brick::Brick(const std::string& path)
     height = 1.5f * wall_height_up;
 }
 
+void Brick::destroy(bool flag)
+{
+    this->is_destroyed = flag;
+}
+
+bool Brick::destroyed() const
+{
+    return is_destroyed;
+}
+
 //-------------------Ball-------------------------
 
 Ball::~Ball() {}
@@ -104,6 +114,40 @@ Ball::Ball(const std::string& path)
     vertexes[3].v_pos.y     = 0.f + height / 2.f;
     vertexes[3].v_texture.x = 1.f;
     vertexes[3].v_texture.y = 1.f;
+
+    tr_low.triangle[0] = vertexes[0];
+    tr_low.triangle[1] = vertexes[1];
+    tr_low.triangle[2] = vertexes[2];
+
+    tr_high.triangle[0] = vertexes[0];
+    tr_high.triangle[1] = vertexes[3];
+    tr_high.triangle[2] = vertexes[2];
+}
+
+void Ball::set_dir(const float x, const float y)
+{
+    direction.x = x;
+    direction.y = y;
+}
+
+Vector Ball::get_dir() const
+{
+    return direction;
+}
+
+Vector Ball::get_speed_max() const
+{
+    return speed_max;
+}
+
+Triangle2& Ball::get_triangle_low()
+{
+    return tr_low;
+}
+
+Triangle2& Ball::get_triangle_high()
+{
+    return tr_high;
 }
 
 //-------------------Life-------------------------
@@ -126,19 +170,6 @@ Platform::Platform(const std::string& path)
 {
     width  = 130.f * 2.f / static_cast<float>(window_width);
     height = 20.f * 2.f / static_cast<float>(window_height);
-}
-
-void Platform::set_matrix(const Matrix& m)
-{
-    if (vertexes[0].v_pos.x <= -1.f ||
-        vertexes[0].v_pos.x >= 1.f)
-        return;
-    this->m = this->m * m;
-}
-
-Matrix Platform::get_matrix() const
-{
-    return m;
 }
 
 float Platform::get_speed() const

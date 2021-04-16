@@ -82,17 +82,33 @@ private:
     size_t status_hit_fatal = 1;
     // if cnt_hit = status_hit_fatal => next hit of the
     // ball will destroy brick
+    bool is_destroyed = false;
+
 public:
     Brick(const std::string& path);
     ~Brick();
+    void destroy(bool flag);
+    bool destroyed() const;
 };
 
 class Ball : public GameObject
 {
 private:
+    Vector direction{ 0.4f, 1.5f };
+    Vector speed_max{ 1.3f, 1.5f };
+
+    Triangle2 tr_low;
+    Triangle2 tr_high;
+    bool      is_destroyed = false;
+
 public:
     Ball(const std::string& path);
     ~Ball();
+    void       set_dir(const float x, const float y);
+    Vector     get_dir() const;
+    Vector     get_speed_max() const;
+    Triangle2& get_triangle_low();
+    Triangle2& get_triangle_high();
 };
 
 class Life : public GameObject
@@ -113,14 +129,12 @@ class Platform : public GameObject
 {
 private:
     Matrix m     = Matrix::scale(1.f);
-    float  speed = 3.f;
+    float  speed = 1.5f;
 
 public:
     Platform(const std::string& path);
     ~Platform();
-    void   set_matrix(const Matrix& m);
-    Matrix get_matrix() const;
-    float  get_speed() const;
+    float get_speed() const;
 };
 
 #endif // GAME_COMPONENTS_H

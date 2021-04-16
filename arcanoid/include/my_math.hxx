@@ -8,9 +8,9 @@ struct Vector
     float y;
     Vector();
     Vector(float x, float y);
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const Vector& v);
 };
+
+std::ostream& operator<<(std::ostream& os, const Vector& v);
 
 struct Vertex1
 {
@@ -55,15 +55,15 @@ struct Triangle2
 
 struct Matrix
 {
-    Vector               col1;
-    Vector               col2;
-    Vector               col3;
-    static Matrix        rotate(float alfa); // alfa in degrees
-    static Matrix        move(const Vector& v);
-    static Matrix        scale(float scale);
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const Matrix& m);
+    Vector        col1;
+    Vector        col2;
+    Vector        col3;
+    static Matrix rotate(float alfa); // alfa in degrees
+    static Matrix move(const Vector& v);
+    static Matrix scale(float scale);
 };
+
+std::ostream& operator<<(std::ostream& os, const Matrix& m);
 
 Vector  operator*(const Vector& v, const Matrix& m);
 Vertex2 operator*(const Vertex2& v, const Matrix& m);

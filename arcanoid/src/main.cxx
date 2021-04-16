@@ -35,10 +35,12 @@ int main(int /*argc*/, char* /*argv*/[])
                   << std::endl;
 #endif
 
-        arcanoid.game_event(delta_time_frame.count());
+        arcanoid.game_event();
         if (!arcanoid.game_running())
             break;
-        arcanoid.game_update();
+        arcanoid.game_update(delta_time_frame.count());
+        if (!arcanoid.game_running())
+            break;
         arcanoid.game_render();
 
     } // 1

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <iostream>
 
 #include "game.hxx"
@@ -12,7 +13,11 @@ float wall_width_left  = 20.f * 2.f / window_width;
 float wall_height_up   = 20.f * 2.f / window_height;
 float wall_width_right = wall_width_left;
 
-Arcanoid::Arcanoid() {}
+Arcanoid::Arcanoid()
+{
+    controls[0] = Button{ ButtonNames::left, false };
+    controls[1] = Button{ ButtonNames::right, false };
+}
 
 Arcanoid::~Arcanoid()
 {
@@ -433,17 +438,16 @@ size_t Arcanoid::game_init()
     //---------------health init-----------------------
     init_health();
 
+    srand(time(NULL));
     is_running = true;
     return 0;
 }
 
-void Arcanoid::game_event(float delta_time_frame)
+void Arcanoid::game_event()
 {
     using namespace eng;
 
-    Events     event;
-    static int left  = 0;
-    static int right = 0;
+    Events event;
     while (engine->read_input(event))
     {
 
@@ -455,29 +459,111 @@ void Arcanoid::game_event(float delta_time_frame)
 
         if (event == Events::left_pressed)
         {
-            platform_move(DirectionPlatform::left,
-                          delta_time_frame);
-            std::cout << "left = " << ++left << std::endl;
+            controls[0].is_pressed = true;
         }
         if (event == Events::right_pressed)
         {
-            std::cout << "right = " << ++right << std::endl;
-            platform_move(DirectionPlatform::right,
-                          delta_time_frame);
+            controls[1].is_pressed = true;
+        }
+        if (event == Events::left_released)
+        {
+            controls[0].is_pressed = false;
+        }
+        if (event == Events::right_released)
+        {
+            controls[1].is_pressed = false;
         }
     }
 }
 
-void Arcanoid::game_update() {}
+void Arcanoid::game_update(float delta_time_frame)
+{
+    collision_process();
+    if (!bricks.size())
+    {
+        is_running = false;
+        std::cout << "You won!" << std::endl;
+    }
+    ball_move(delta_time_frame);
+
+    for (auto& el : controls)
+    {
+        if (el.is_pressed)
+        {
+            DirectionPlatform dir = DirectionPlatform::left;
+            if (el.name == ButtonNames::left)
+                dir = DirectionPlatform::left;
+            if (el.name == ButtonNames::right)
+                dir = DirectionPlatform::right;
+            platform_move(dir, delta_time_frame);
+        }
+    }
+
+    if (ball->get_triangle_low().triangle[0].v_pos.y <
+        platform->get_vertex(0).v_pos.y - 0.1f)
+    {
+        if (health.size())
+            health.erase(health.end() - 1);
+
+        if (!health.size())
+        {
+            is_running = false;
+            std::cout << "Game Over, loser!" << std::endl;
+            return;
+        }
+
+        Vertex2 v0{
+            { platform->get_vertex(0).v_pos.x +
+                  platform->get_width() / 2.f -
+                  ball->get_width() / 2.f,
+              platform->get_vertex(0).v_pos.y +
+                  ball->get_height() },
+            { ball->get_triangle_low().triangle[0].v_texture }
+        };
+
+        Vertex2 v1{
+            { platform->get_vertex(0).v_pos.x +
+                  platform->get_width() / 2.f -
+                  ball->get_width() / 2.f,
+              platform->get_vertex(0).v_pos.y },
+            { ball->get_triangle_low().triangle[1].v_texture }
+        };
+
+        Vertex2 v2{
+            { platform->get_vertex(0).v_pos.x +
+                  platform->get_width() / 2.f +
+                  ball->get_width() / 2.f,
+              platform->get_vertex(0).v_pos.y },
+            { ball->get_triangle_low().triangle[2].v_texture }
+        };
+
+        Vertex2 v3{
+            { platform->get_vertex(0).v_pos.x +
+                  platform->get_width() / 2.f +
+                  ball->get_width() / 2.f,
+              platform->get_vertex(0).v_pos.y +
+                  ball->get_height() },
+            { ball->get_triangle_high().triangle[1].v_texture }
+        };
+
+        ball->get_triangle_low().triangle[0] = v0;
+        ball->get_triangle_low().triangle[1] = v1;
+        ball->get_triangle_low().triangle[2] = v2;
+
+        ball->get_triangle_high().triangle[0] = v0;
+        ball->get_triangle_high().triangle[1] = v3;
+        ball->get_triangle_high().triangle[2] = v2;
+    }
+}
 
 void Arcanoid::game_render()
 {
     render_background();
     // render_walls();
     render_bricks();
-    render_ball();
     render_health();
     render_platform();
+    render_ball();
 
     engine->swap_buffers();
 }
@@ -546,19 +632,10 @@ void Arcanoid::render_bricks() const
 
 void Arcanoid::render_ball() const
 {
-    Triangle2 tr_text_low{ ball->get_vertex(0),
-                           ball->get_vertex(1),
-                           ball->get_vertex(2) };
-
-    Triangle2 tr_text_high{ ball->get_vertex(0),
-                            ball->get_vertex(3),
-                            ball->get_vertex(2) };
-    Matrix    m = Matrix::scale(1.0);
-
-    engine->render_triangle(
-        tr_text_low, ball_texture.get(), m);
-    engine->render_triangle(
-        tr_text_high, ball_texture.get(), m);
+    engine->render_triangle(ball->get_triangle_low(),
+                            ball_texture.get());
+    engine->render_triangle(ball->get_triangle_high(),
+                            ball_texture.get());
 }
 
 void Arcanoid::render_health() const
@@ -606,21 +683,31 @@ void Arcanoid::render_platform() const
 void Arcanoid::platform_move(DirectionPlatform dir,
                              float delta_time_frame)
 {
-    Matrix m;
-    Vector move;
+    Matrix  m;
+    Vector  move;
+    Vertex2 v0, v1, v2, v3;
+    v0 = platform->get_vertex(0);
+    v1 = platform->get_vertex(1);
+    v2 = platform->get_vertex(2);
+    v3 = platform->get_vertex(3);
 
     if (dir == DirectionPlatform::left)
     {
-        // Vector  left{ -0.05f * delta_time_frame, 0.f };
         move.x = -platform->get_speed() * delta_time_frame;
         move.y = 0.f;
         m      = Matrix::move(move);
-        Vertex2 tmp1 = platform->get_vertex(0);
-        Vertex2 res1 = tmp1 * m;
-
+        v0     = v0 * m;
+        v1     = v1 * m;
+        v2     = v2 * m;
+        v3     = v3 * m;
         // check platform in boundary window
-        if (res1.v_pos.x <= -1.f)
-            return;
+        if (v0.v_pos.x <= -1.f)
+        {
+            v0.v_pos.x = -1.f;
+            v1.v_pos.x = -1.f;
+            v2.v_pos.x = -1.f + platform->get_width();
+            v3.v_pos.x = -1.f + platform->get_width();
+        }
     }
 
     if (dir == DirectionPlatform::right)
@@ -628,18 +715,146 @@ void Arcanoid::platform_move(DirectionPlatform dir,
         move.x = platform->get_speed() * delta_time_frame;
         move.y = 0.f;
         m      = Matrix::move(move);
-        Vertex2 tmp2 = platform->get_vertex(2);
-        Vertex2 res2 = tmp2 * m;
+        v0     = v0 * m;
+        v1     = v1 * m;
+        v2     = v2 * m;
+        v3     = v3 * m;
 
-        if (res2.v_pos.x >= 1.f)
-            return;
+        // check platform in boundary window
+        if (v2.v_pos.x > 1.f)
+        {
+            v0.v_pos.x = 1.f - platform->get_width();
+            v1.v_pos.x = 1.f - platform->get_width();
+            v2.v_pos.x = 1.f;
+            v3.v_pos.x = 1.f;
+        }
     }
 
     // move platform
-    platform->set_vertex(0, platform->get_vertex(0) * m);
-    platform->set_vertex(1, platform->get_vertex(1) * m);
-    platform->set_vertex(2, platform->get_vertex(2) * m);
-    platform->set_vertex(3, platform->get_vertex(3) * m);
+    platform->set_vertex(0, v0);
+    platform->set_vertex(1, v1);
+    platform->set_vertex(2, v2);
+    platform->set_vertex(3, v3);
+}
+
+void Arcanoid::ball_move(float delta_time_frame)
+{
+    Vector dir{ ball->get_dir().x * delta_time_frame,
+                ball->get_dir().y * delta_time_frame };
+    Matrix m = Matrix::move(dir);
+    for (auto& el : ball->get_triangle_low().triangle)
+    {
+        el.v_pos = el.v_pos * m;
+    }
+
+    for (auto& el : ball->get_triangle_high().triangle)
+    {
+        el.v_pos = el.v_pos * m;
+    }
+
+    if (ball->get_triangle_low().triangle[0].v_pos.x <= -1.f)
+        ball->set_dir(-ball->get_dir().x, ball->get_dir().y);
+
+    if (ball->get_triangle_low().triangle[2].v_pos.x >= 1.f)
+        ball->set_dir(-ball->get_dir().x, ball->get_dir().y);
+
+    if (ball->get_triangle_low().triangle[0].v_pos.y >= 1.f)
+        ball->set_dir(ball->get_dir().x, -ball->get_dir().y);
+}
+
+void Arcanoid::collision_process()
+{
+    float ball_x_v0 =
+        ball->get_triangle_low().triangle[0].v_pos.x;
+    float ball_y_v0 =
+        ball->get_triangle_low().triangle[0].v_pos.y;
+    float ball_x_v1 =
+        ball->get_triangle_low().triangle[1].v_pos.x;
+    float ball_y_v1 =
+        ball->get_triangle_low().triangle[1].v_pos.y;
+    float ball_x_v2 =
+        ball->get_triangle_low().triangle[2].v_pos.x;
+    float ball_y_v2 =
+        ball->get_triangle_low().triangle[2].v_pos.y;
+    float ball_x_v3 =
+        ball->get_triangle_high().triangle[1].v_pos.x;
+    float ball_y_v3 =
+        ball->get_triangle_high().triangle[1].v_pos.y;
+
+    float brick_x_v0, brick_y_v0, brick_x_v1, brick_y_v1,
+        brick_x_v2, brick_y_v2, brick_x_v3, brick_y_v3;
+
+    for (auto& el : bricks)
+    {
+        brick_x_v0 = el.get_vertex(0).v_pos.x;
+        brick_y_v0 = el.get_vertex(0).v_pos.y;
+        brick_x_v1 = el.get_vertex(1).v_pos.x;
+        brick_y_v1 = el.get_vertex(1).v_pos.y;
+        brick_x_v2 = el.get_vertex(2).v_pos.x;
+        brick_y_v2 = el.get_vertex(2).v_pos.y;
+        brick_x_v3 = el.get_vertex(3).v_pos.x;
+        brick_y_v3 = el.get_vertex(3).v_pos.y;
+
+        if (ball_x_v0 > brick_x_v2 || ball_x_v2 < brick_x_v0)
+            continue;
+        if (ball_y_v0 < brick_y_v1 || ball_y_v1 > brick_y_v0)
+            continue;
+
+        el.destroy(true);
+    }
+
+    auto it_del =
+        std::remove_if(bricks.begin(),
+                       bricks.end(),
+                       [](Brick& brick) -> bool {
+                           return brick.destroyed() == true;
+                       });
+    if (it_del != bricks.end())
+    {
+        bricks.erase(it_del, bricks.end());
+        ball->set_dir(ball->get_dir().x, -ball->get_dir().y);
+    }
+
+    if ((ball_x_v2 >= platform->get_vertex(0).v_pos.x &&
+         ball_x_v2 <= platform->get_vertex(2).v_pos.x) ||
+        (ball_x_v0 >= platform->get_vertex(0).v_pos.x &&
+         ball_x_v0 <= platform->get_vertex(2).v_pos.x))
+    {
+        if ((ball_y_v2 <= platform->get_vertex(0).v_pos.y &&
+             ball_y_v2 >= platform->get_vertex(1).v_pos.y) ||
+            (ball_y_v0 <= platform->get_vertex(0).v_pos.y &&
+             ball_y_v0 >= platform->get_vertex(1).v_pos.y))
+        {
+            float ball_x_center =
+                ball->get_triangle_low().triangle[0].v_pos.x +
+                ball->get_width() / 2.f;
+            float platform_x_center =
+                platform->get_vertex(0).v_pos.x +
+                platform->get_width() / 2.f;
+
+            float delta = ball_x_center - platform_x_center;
+            float new_dir_ball_x, new_dir_ball_y;
+
+            float max_dist_centres =
+                platform->get_width() / 2.f +
+                ball->get_width() / 2.f;
+
+            new_dir_ball_x =
+                fabs(delta) / max_dist_centres *
+                    (ball->get_speed_max().x - 0.f) +
+                0.f;
+            new_dir_ball_y =
+                fabs(delta) / max_dist_centres *
+                    (0.f - ball->get_speed_max().y) +
+                ball->get_speed_max().y;
+
+            if (delta < 0.f)
+                new_dir_ball_x *= -1.f;
+
+            // new_dir_ball_y *= -1.f;
+            ball->set_dir(new_dir_ball_x, new_dir_ball_y);
+        }
+    }
 }
 
 void Arcanoid::game_uninit()

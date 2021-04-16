@@ -8,6 +8,18 @@
 #include "game_components.hxx"
 #include "my_engine.hxx"
 
+enum ButtonNames
+{
+    left,
+    right
+};
+
+struct Button
+{
+    ButtonNames name;
+    bool        is_pressed;
+};
+
 class Arcanoid
 {
 private:
@@ -22,10 +34,11 @@ private:
     std::unique_ptr<Platform> platform;
     std::vector<Life*>        health;
 
-    eng::IEngine*   engine;
-    std::list<Wall> walls;
-    size_t          current_level = 1;
-    bool            is_running    = false;
+    eng::IEngine*         engine;
+    std::list<Wall>       walls;
+    std::array<Button, 2> controls;
+    size_t                current_level = 1;
+    bool                  is_running    = false;
 
     void init_background();
     void init_walls();
@@ -41,13 +54,15 @@ private:
     void render_platform() const;
     void platform_move(DirectionPlatform dir,
                        float             delta_time_frame);
+    void ball_move(float delta_time_frame);
+    void collision_process();
 
 public:
     Arcanoid();
     ~Arcanoid();
     size_t game_init();
-    void   game_event(float delta_time_frame);
-    void   game_update();
+    void   game_event();
+    void   game_update(float delta_time_frame);
     void   game_render();
     void   game_uninit();
     bool   game_running() const;
