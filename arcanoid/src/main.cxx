@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "game.hxx"
+//#define DEBUG
 
 int main(int /*argc*/, char* /*argv*/[])
 {
@@ -11,16 +12,30 @@ int main(int /*argc*/, char* /*argv*/[])
     //-----------------------------------------------------
 
     Arcanoid arcanoid;
-    // float width_brick  = 100.f * 2.f / 1024.f;
-    // float height_brick = 20.f * 2.f / 768.f;
     arcanoid.game_init();
 
     bool loop_continue = true;
 
+    auto time_prev_frame =
+        std::chrono::high_resolution_clock::now();
+    decltype(std::chrono::high_resolution_clock::now())
+        time_cur_frame;
+
     while (loop_continue)
     { // 1
 
-        arcanoid.game_event();
+        time_cur_frame =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> delta_time_frame =
+            time_cur_frame - time_prev_frame;
+        time_prev_frame = time_cur_frame;
+
+#ifdef DEBUG
+        std::cout << "delta = " << delta_time_frame.count()
+                  << std::endl;
+#endif
+
+        arcanoid.game_event(delta_time_frame.count());
         if (!arcanoid.game_running())
             break;
         arcanoid.game_update();

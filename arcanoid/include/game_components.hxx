@@ -103,12 +103,24 @@ public:
     ~Life();
 };
 
+enum class DirectionPlatform
+{
+    left,
+    right
+};
+
 class Platform : public GameObject
 {
 private:
+    Matrix m     = Matrix::scale(1.f);
+    float  speed = 3.f;
+
 public:
     Platform(const std::string& path);
     ~Platform();
+    void   set_matrix(const Matrix& m);
+    Matrix get_matrix() const;
+    float  get_speed() const;
 };
 
 #endif // GAME_COMPONENTS_H

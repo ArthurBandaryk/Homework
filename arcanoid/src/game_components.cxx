@@ -1,5 +1,4 @@
 #include "game_components.hxx"
-#include "gl_check.hxx"
 #include <iostream>
 
 GameObject::~GameObject() {}
@@ -127,4 +126,22 @@ Platform::Platform(const std::string& path)
 {
     width  = 130.f * 2.f / static_cast<float>(window_width);
     height = 20.f * 2.f / static_cast<float>(window_height);
+}
+
+void Platform::set_matrix(const Matrix& m)
+{
+    if (vertexes[0].v_pos.x <= -1.f ||
+        vertexes[0].v_pos.x >= 1.f)
+        return;
+    this->m = this->m * m;
+}
+
+Matrix Platform::get_matrix() const
+{
+    return m;
+}
+
+float Platform::get_speed() const
+{
+    return speed;
 }

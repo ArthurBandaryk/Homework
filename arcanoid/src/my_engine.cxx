@@ -458,7 +458,7 @@ bool Engine_impl::read_input(Events& ev)
 
         case SDL_KEYDOWN:
             check_input(&event, ks, DevBinds::keypad);
-            std::cout << "key pressed!" << std::endl;
+            // std::cout << "key pressed!" << std::endl;
             ev = ks.key_pressed;
             break;
 

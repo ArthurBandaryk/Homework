@@ -65,5 +65,6 @@ struct Matrix
                                     const Matrix& m);
 };
 
-Vector operator*(const Vector& v, const Matrix& m);
-Matrix operator*(const Matrix& m1, const Matrix& m2);
+Vector  operator*(const Vector& v, const Matrix& m);
+Vertex2 operator*(const Vertex2& v, const Matrix& m);
+Matrix  operator*(const Matrix& m1, const Matrix& m2);

@@ -120,6 +120,17 @@ Vector operator*(const Vector& v, const Matrix& m)
     return result;
 }
 
+Vertex2 operator*(const Vertex2& v, const Matrix& m)
+{
+    Vertex2 result;
+    result.v_texture = v.v_texture;
+    result.v_pos.x =
+        v.v_pos.x * m.col1.x + v.v_pos.y * m.col2.x + m.col3.x;
+    result.v_pos.y =
+        v.v_pos.x * m.col1.y + v.v_pos.y * m.col2.y + m.col3.y;
+    return result;
+}
+
 Matrix operator*(const Matrix& m1, const Matrix& m2)
 {
     Matrix m;

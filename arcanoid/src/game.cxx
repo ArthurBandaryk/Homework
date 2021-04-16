@@ -437,12 +437,13 @@ size_t Arcanoid::game_init()
     return 0;
 }
 
-void Arcanoid::game_event()
+void Arcanoid::game_event(float delta_time_frame)
 {
     using namespace eng;
 
-    Events event;
-
+    Events     event;
+    static int left  = 0;
+    static int right = 0;
     while (engine->read_input(event))
     {
 
@@ -454,9 +455,15 @@ void Arcanoid::game_event()
 
         if (event == Events::left_pressed)
         {
+            platform_move(DirectionPlatform::left,
+                          delta_time_frame);
+            std::cout << "left = " << ++left << std::endl;
         }
         if (event == Events::right_pressed)
         {
+            std::cout << "right = " << ++right << std::endl;
+            platform_move(DirectionPlatform::right,
+                          delta_time_frame);
         }
     }
 }
@@ -583,12 +590,56 @@ void Arcanoid::render_platform() const
     Triangle2 tr_text_high{ platform->get_vertex(0),
                             platform->get_vertex(3),
                             platform->get_vertex(2) };
-    Matrix    m = Matrix::scale(1.0);
 
-    engine->render_triangle(
-        tr_text_low, platform_texture.get(), m);
-    engine->render_triangle(
-        tr_text_high, platform_texture.get(), m);
+    //    engine->render_triangle(tr_text_low,
+    //                            platform_texture.get(),
+    //                            platform->get_matrix());
+    //    engine->render_triangle(tr_text_high,
+    //                            platform_texture.get(),
+    //                            platform->get_matrix());
+    engine->render_triangle(tr_text_low,
+                            platform_texture.get());
+    engine->render_triangle(tr_text_high,
+                            platform_texture.get());
+}
+
+void Arcanoid::platform_move(DirectionPlatform dir,
+                             float delta_time_frame)
+{
+    Matrix m;
+    Vector move;
+
+    if (dir == DirectionPlatform::left)
+    {
+        // Vector  left{ -0.05f * delta_time_frame, 0.f };
+        move.x = -platform->get_speed() * delta_time_frame;
+        move.y = 0.f;
+        m      = Matrix::move(move);
+        Vertex2 tmp1 = platform->get_vertex(0);
+        Vertex2 res1 = tmp1 * m;
+
+        // check platform in boundary window
+        if (res1.v_pos.x <= -1.f)
+            return;
+    }
+
+    if (dir == DirectionPlatform::right)
+    {
+        move.x = platform->get_speed() * delta_time_frame;
+        move.y = 0.f;
+        m      = Matrix::move(move);
+        Vertex2 tmp2 = platform->get_vertex(2);
+        Vertex2 res2 = tmp2 * m;
+
+        if (res2.v_pos.x >= 1.f)
+            return;
+    }
+
+    // move platform
+    platform->set_vertex(0, platform->get_vertex(0) * m);
+    platform->set_vertex(1, platform->get_vertex(1) * m);
+    platform->set_vertex(2, platform->get_vertex(2) * m);
+    platform->set_vertex(3, platform->get_vertex(3) * m);
 }
 
 void Arcanoid::game_uninit()
